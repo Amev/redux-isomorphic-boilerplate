@@ -1,12 +1,18 @@
-## redux isomorphic app boilerplate
+# redux isomorphic app boilerplate
 
-First: ```npm install```
+## First step
 
-Dev: ```npm run start```
+```npm install```
 
-Prod: ```npm run build && npm run prod```
+## Dev
 
-# Roadmap
+```npm run start```
+
+## Prod
+
+```npm run build && npm run prod```
+
+### Roadmap
 
 * Add basic routing
 * Add basic css
