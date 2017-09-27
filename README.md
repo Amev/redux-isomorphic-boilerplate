@@ -1,18 +1,20 @@
-# redux isomorphic app boilerplate
+# Redux Isomorphic web app boilerplate
 
-## First step
+This is a boilerplate, ready to use, to dev and production.
+
+### First step
 
 ```npm install```
 
-## Dev
+### Dev
 
 ```npm run start```
 
-## Prod
+### Prod
 
 ```npm run build && npm run prod```
 
-### Roadmap
+## Roadmap
 
 * Add basic routing
 * Add basic css
