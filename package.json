@@ -22,7 +22,6 @@
   },
   "homepage": "https://github.com/Amev/web-app-boiler#readme",
   "dependencies": {
-    "babylon": "^6.18.0",
     "body-parser": "^1.18.1",
     "compression": "^1.7.0",
     "express": "^4.15.4",
@@ -37,7 +36,6 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
-    "babel-plugin-dynamic-import-node": "^1.1.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.7",
