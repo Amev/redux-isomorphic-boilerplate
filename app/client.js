@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import RootReducer from 'modules/RootReducer';
+import App from 'components/AppContainer';
 import { Provider } from 'react-redux';
 import { render } from 'react-dom';
 import thunk from 'redux-thunk'
@@ -13,7 +14,7 @@ const store = createStore(RootReducer, preloadedState, applyMiddleware(thunk));
 
 render(
 	<Provider store={store}>
-		<div>Insert your app here</div>
+		<App />
 	</Provider>,
 	document.getElementById('root')
 );

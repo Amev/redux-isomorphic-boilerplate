@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
 import { renderToString } from 'react-dom/server';
 import RootReducer from './modules/RootReducer';
+import App from 'components/AppContainer';
 import { Provider } from 'react-redux';
 import compression from 'compression';
 import bodyParser from 'body-parser';
@@ -24,7 +25,7 @@ function handleRender(req, res) {
 
 	const html = renderToString(
 		<Provider store={store}>
-			<div>Insert your app here</div>
+			<App />
 		</Provider>
 	);
 
@@ -38,16 +39,17 @@ function renderFullPage(html, preloadedState) {
 		<!doctype html>
 		<html>
 			<head>
-				<meta charset="UTF-8" />
+				<meta charset='UTF-8' />
 				<title>Web app boilerplate</title>
-				<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+				<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no' />
 			</head>
 			<body>
-				<div id="root">${html}</div>
+				<div id='root'>${html}</div>
 				<script>
 					window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
 				</script>
-				<script src="/public/bundle.js"></script>
+				<script type='module' src='/public/bundle_es6.js'></script>
+				<script nomodule src='/public/bundle.js'></script>
 			</body>
 		</html>
 	`;
