@@ -7,7 +7,6 @@ const modernConfig = require('./webpack.base.config')();
 
 const extractLess = new ExtractTextPlugin({
     filename: 'bundle.css',
-    allChunks: true,
     disable: false
 });
 
