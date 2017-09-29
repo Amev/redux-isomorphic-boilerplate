@@ -5,15 +5,19 @@ const webpack = require('webpack');
 const baseConfig = require('./webpack.base.config')();
 const modernConfig = require('./webpack.base.config')();
 
-const extractLess = new ExtractTextPlugin('bundle.css');
+const extractLess = new ExtractTextPlugin({
+    filename: 'bundle.css',
+    allChunks: true,
+    disable: false
+});
 
+baseConfig.plugins.push(extractLess);
 baseConfig.plugins.push(new MinifyPlugin());
 baseConfig.plugins.push(new webpack.DefinePlugin({
     'process_env': {
         'NODE_ENV': JSON.stringify('production'),
     },
 }));
-baseConfig.plugins.push(extractLess);
 baseConfig.module.rules[1].use[0].options.presets.push([
     'env', {
         targets: {
@@ -25,11 +29,11 @@ baseConfig.module.rules[1].use[0].options.presets.push([
         },
     },
 ]);
-baseConfig.module.rules[0] = {
-    test: /\.less$/,
+baseConfig.module.rules.shift();
+baseConfig.module.rules.unshift({
+    test: /\.less$/,    
     use: extractLess.extract({
         use: [
-            { loader: 'style-loader' },
             { loader: 'css-loader' },
             {
                 loader: 'postcss-loader',
@@ -39,8 +43,9 @@ baseConfig.module.rules[0] = {
             },
             { loader: 'less-loader' },
         ],
+        fallback: 'style-loader',
     }),
-};
+});
 
 modernConfig.output.filename = 'bundle_es6.js';
 modernConfig.plugins.push(new MinifyPlugin());

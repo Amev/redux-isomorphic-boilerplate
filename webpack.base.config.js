@@ -37,6 +37,7 @@ module.exports = () => {
                             options: {
                                 presets: ['react'],
                                 plugins: ['transform-class-properties'],
+                                babelrc: false,
                             },
                         },
                     ],
