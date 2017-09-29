@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import './App.less';
+
 export default class App extends Component {
     static proptypes = {
         data: PropTypes.string,
@@ -8,7 +10,9 @@ export default class App extends Component {
 
     render() {
         return (
-            <div>Insert your app here</div>
+            <div className='App'>
+                Insert your app here
+            </div>
         );
     }
 }

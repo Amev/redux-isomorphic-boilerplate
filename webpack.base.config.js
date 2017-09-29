@@ -21,7 +21,7 @@ module.exports = () => {
         module: {
             rules: [
                 {
-                    test: /\.css$/,
+                    test: /\.less$/,
                     use: [
                         'style-loader',
                         'css-loader',
@@ -37,6 +37,7 @@ module.exports = () => {
                             options: {
                                 presets: ['react'],
                                 plugins: ['transform-class-properties'],
+                                babelrc: false,
                             },
                         },
                     ],

@@ -42,6 +42,7 @@ function renderFullPage(html, preloadedState) {
 				<meta charset='UTF-8' />
 				<title>Web app boilerplate</title>
 				<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no' />
+				<link rel="stylesheet" href="/public/bundle.css" />
 			</head>
 			<body>
 				<div id='root'>${html}</div>
