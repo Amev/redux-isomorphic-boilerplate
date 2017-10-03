@@ -9,6 +9,7 @@ import thunk from 'redux-thunk';
 import Express from 'express';
 import React from 'react';
 import path from 'path';
+import fs from 'fs';
 
 const app = Express();
 const port = 3000;
@@ -17,8 +18,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(compression({threshold: 512}));
 
-app.use('/public', Express.static('dist/public'));
+app.use('/', Express.static('dist/public'));
 app.use(handleRender);
+
+const template = fs.readFileSync('dist/public/template.html', 'utf-8');
 
 function handleRender(req, res) {
 	const store = createStore(RootReducer, applyMiddleware(thunk));
@@ -35,25 +38,11 @@ function handleRender(req, res) {
 }
 
 function renderFullPage(html, preloadedState) {
-	return `
-		<!doctype html>
-		<html>
-			<head>
-				<meta charset='UTF-8' />
-				<title>Web app boilerplate</title>
-				<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no' />
-				<link rel="stylesheet" href="/public/bundle.css" />
-			</head>
-			<body>
-				<div id='root'>${html}</div>
-				<script>
-					window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
-				</script>
-				<script type='module' src='/public/bundle_es6.js'></script>
-				<script nomodule src='/public/bundle.js'></script>
-			</body>
-		</html>
-	`;
+	return template
+		.replace('<div id=\'root\'></div>', `<div id='root'>${html}</div>`)
+		.replace('<script></script>', `<script>
+			window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
+		</script>`);
 }
 
 app.listen(port, () => {
