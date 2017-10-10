@@ -22,7 +22,6 @@ npm run build && npm run prod
 
 ## Roadmap
 
-* Use same template html in dev and prod
 * Add basic routing
 * Add basic css
 * Better README
