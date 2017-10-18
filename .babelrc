@@ -1,16 +1,16 @@
 {
-    "presets": [
-        "react",
-        ["env", {
-            "targets": {
-                "node": "current"
-            }
-        }]
-    ],
-    "plugins": [
-        ["transform-class-properties"],
-        ["transform-require-ignore", {
-            "extensions": [".less"]
-        }]
-    ]
+	"presets": [
+		"react",
+		["env", {
+			"targets": {
+				"node": "current"
+			}
+		}]
+	],
+	"plugins": [
+		["transform-class-properties"],
+		["transform-require-ignore", {
+			"extensions": [".less"]
+		}]
+	]
 }
