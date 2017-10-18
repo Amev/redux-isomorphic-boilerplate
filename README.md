@@ -22,6 +22,6 @@ npm run build && npm run prod
 
 ## Roadmap
 
-* Add basic routing
+* Connect router with redux
 * Add basic css
 * Better README
