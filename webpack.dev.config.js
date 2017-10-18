@@ -5,12 +5,13 @@ const path = require('path');
 const baseConfig = require('./webpack.base.config')();
 
 baseConfig.devServer = {
-    contentBase: path.resolve(__dirname, 'dist/public'),
-    hot: true
+	contentBase: path.resolve(__dirname, 'dist/public'),
+	historyApiFallback: true,
+	hot: true
 },
 
 baseConfig.plugins.push(new htmlWebPackPlugin({
-    template: path.resolve('./app/assets/index.html'),
+	template: path.resolve('./app/assets/index.html'),
 }));
 
 baseConfig.plugins.push(new webpack.HotModuleReplacementPlugin());

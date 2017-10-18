@@ -1,10 +1,11 @@
 import { createStore, applyMiddleware } from 'redux';
 import { renderToString } from 'react-dom/server';
+import { StaticRouter } from 'react-router-dom';
 import RootReducer from './modules/RootReducer';
-import App from 'components/AppContainer';
 import { Provider } from 'react-redux';
 import compression from 'compression';
 import bodyParser from 'body-parser';
+import Routes from 'routes/Routes';
 import thunk from 'redux-thunk';
 import Express from 'express';
 import React from 'react';
@@ -25,10 +26,16 @@ const template = fs.readFileSync('dist/public/template.html', 'utf-8');
 
 function handleRender(req, res) {
 	const store = createStore(RootReducer, applyMiddleware(thunk));
-
+	const context = {};
+	
 	const html = renderToString(
 		<Provider store={store}>
-			<App />
+			<StaticRouter
+				location={req.url}
+				context={context}
+			>
+				<Routes />
+			</StaticRouter>
 		</Provider>
 	);
 
