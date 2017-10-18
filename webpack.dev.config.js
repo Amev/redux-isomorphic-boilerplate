@@ -5,7 +5,8 @@ const path = require('path');
 const baseConfig = require('./webpack.base.config')();
 
 baseConfig.devServer = {
-    contentBase: path.resolve(__dirname, 'dist/public'),
+	contentBase: path.resolve(__dirname, 'dist/public'),
+	historyApiFallback: true,
     hot: true
 },
 

@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import './App.less';
+import './Home.less';
 
-export default class App extends Component {
+export default class Home extends Component {
     static proptypes = {
         data: PropTypes.string,
     };
 
     render() {
         return (
-            <div className='App'>
+            <div className='Home'>
                 Insert your app here
             </div>
         );
