@@ -1,7 +1,7 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
-import RootReducer from './modules/RootReducer';
+import reducers from './modules/reducers';
 import { Provider } from 'react-redux';
 import compression from 'compression';
 import bodyParser from 'body-parser';
@@ -25,7 +25,7 @@ app.use(handleRender);
 const template = fs.readFileSync('dist/public/template.html', 'utf-8');
 
 function handleRender(req, res) {
-	const store = createStore(RootReducer, applyMiddleware(thunk));
+	const store = createStore(combineReducers({ ...reducers }), applyMiddleware(thunk));
 	const context = {};
 	
 	const html = renderToString(
