@@ -4,6 +4,8 @@ const path = require('path');
 
 const baseConfig = require('./webpack.base.config')();
 
+baseConfig.output.filename = 'bundle-[hash].js';
+
 baseConfig.devServer = {
 	contentBase: path.resolve(__dirname, 'dist/public'),
 	historyApiFallback: true,

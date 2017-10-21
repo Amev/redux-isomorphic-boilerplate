@@ -5,7 +5,7 @@ module.exports = () => {
 	return {
 		entry: path.resolve('./app/client.js'),
 		output: {
-			filename: 'bundle.js',
+			filename: 'bundle-[chunkhash].js',
 			path: path.resolve('./dist/public'),
 		},
 		context: path.resolve('./app'),

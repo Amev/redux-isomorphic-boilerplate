@@ -9,7 +9,7 @@ const baseConfig = require('./webpack.base.config')();
 const modernConfig = require('./webpack.base.config')();
 
 const extractLess = new ExtractTextPlugin({
-	filename: 'bundle.css',
+	filename: 'style-[chunkhash].css',
 	disable: false
 });
 
@@ -29,9 +29,10 @@ baseConfig.module.rules[1].use[0].options.presets.push([
 	'env', {
 		targets: {
 			browsers: [
-				'> 1%',
-				'last 2 versions',
-				'Firefox ESR',
+				'Chrome >= 60',
+				'Safari >= 10',
+				'Firefox >= 54',
+				'Edge >= 15',
 			],
 		},
 	},
@@ -54,7 +55,7 @@ baseConfig.module.rules.unshift({
 	}),
 });
 
-modernConfig.output.filename = 'bundle_es6.js';
+modernConfig.output.filename = 'bundle_es6-[chunkhash].js';
 modernConfig.plugins.push(new MinifyPlugin());
 modernConfig.plugins.push(new webpack.DefinePlugin({
 	'process_env': {
