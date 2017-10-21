@@ -6,8 +6,10 @@ import { Provider } from 'react-redux';
 import compression from 'compression';
 import bodyParser from 'body-parser';
 import Routes from 'routes/Routes';
+import useragent from 'useragent';
 import thunk from 'redux-thunk';
 import Express from 'express';
+import Config from './config';
 import React from 'react';
 import path from 'path';
 import fs from 'fs';
@@ -39,17 +41,21 @@ function handleRender(req, res) {
 		</Provider>
 	);
 
+	const agent = useragent.parse(req.headers['user-agent']);	
 	const preloadedState = store.getState();
 
-	res.send(renderFullPage(html, preloadedState));
+	res.send(renderFullPage(html, preloadedState, agent));
 }
 
-function renderFullPage(html, preloadedState) {
+function renderFullPage(html, preloadedState, agent) {
+	const modernBundle = Config.modernBrowsers[agent.family] <= agent.major ? true : false;
+
 	return template
 		.replace('<div id=\'root\'></div>', `<div id='root'>${html}</div>`)
 		.replace('<script></script>', `<script>
 			window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
-		</script>`);
+		</script>`)
+		.replace('bundle', modernBundle ? 'bundle_es6' : 'bundle');
 }
 
 app.listen(port, () => {
