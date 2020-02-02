@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
-import reducers from './modules/rootReducer';
+import reducers from './modules/reducers';
 import { Provider } from 'react-redux';
 import compression from 'compression';
 import bodyParser from 'body-parser';
@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(compression({threshold: 512}));
 
-app.use('/', Express.static('dist/public'));
+app.use('/public', Express.static('dist/public'));
 app.use(handleRender);
 
 const template = fs.readFileSync('dist/public/template.html', 'utf-8');
@@ -51,10 +51,12 @@ function renderFullPage(html, preloadedState, agent) {
 
 	return template
 		.replace('<div id=\'root\'></div>', `<div id='root'>${html}</div>`)
-		.replace('<script></script>', `<script>
-			window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
-		</script>`)
-		.replace('bundle', modernBundle ? 'bundle_es6' : 'bundle');
+        .replace('<script></script>',
+`<script>
+    window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
+</script>
+        `)
+        // .replace('bundle', modernBundle ? 'bundle_es6' : 'bundle');
 }
 
 app.listen(port, () => {

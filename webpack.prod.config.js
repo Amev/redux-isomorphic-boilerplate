@@ -8,11 +8,13 @@ const path = require('path');
 const baseConfig = require('./webpack.base.config')();
 const modernConfig = require('./webpack.base.config')();
 
+
 const extractLess = new ExtractTextPlugin({
 	filename: 'style-[chunkhash].css',
 	disable: false
 });
 
+baseConfig.output.publicPath = '/public/';
 baseConfig.plugins.unshift(new CleanWebpackPlugin());
 baseConfig.plugins.push(extractLess);
 baseConfig.plugins.push(new MinifyPlugin());
@@ -22,11 +24,12 @@ baseConfig.plugins.push(new webpack.DefinePlugin({
 	},
 }));
 baseConfig.plugins.push(new htmlWebPackPlugin({
-	template: path.resolve('./app/assets/index.html'),
+    template: path.resolve('./app/assets/index.html'),
 	filename: 'template.html',
+    publicPath: '/public/',
 }));
 baseConfig.module.rules[1].use[0].options.presets.push([
-	'env', {
+	'@babel/preset-env', {
 		targets: {
 			browsers: [
 				'Chrome >= 60',
@@ -56,6 +59,7 @@ baseConfig.module.rules.unshift({
 });
 
 modernConfig.output.filename = 'bundle_es6-[chunkhash].js';
+modernConfig.output.publicPath = '/public/';
 modernConfig.plugins.push(new MinifyPlugin());
 modernConfig.plugins.push(new webpack.DefinePlugin({
 	'process_env': {
