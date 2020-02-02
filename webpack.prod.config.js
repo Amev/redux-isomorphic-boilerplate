@@ -1,6 +1,6 @@
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const MinifyPlugin = require('babel-minify-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const htmlWebPackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
@@ -13,7 +13,7 @@ const extractLess = new ExtractTextPlugin({
 	disable: false
 });
 
-baseConfig.plugins.unshift(new CleanWebpackPlugin('./dist'));
+baseConfig.plugins.unshift(new CleanWebpackPlugin());
 baseConfig.plugins.push(extractLess);
 baseConfig.plugins.push(new MinifyPlugin());
 baseConfig.plugins.push(new webpack.DefinePlugin({
@@ -39,7 +39,7 @@ baseConfig.module.rules[1].use[0].options.presets.push([
 ]);
 baseConfig.module.rules.shift();
 baseConfig.module.rules.unshift({
-	test: /\.less$/,    
+	test: /\.less$/,
 	use: extractLess.extract({
 		use: [
 			{ loader: 'css-loader' },

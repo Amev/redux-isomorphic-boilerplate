@@ -1,36 +1,22 @@
-import { ConnectedRouter, routerReducer, routerMiddleware } from 'react-router-redux';
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import createHistory from 'history/createBrowserHistory';
-import { BrowserRouter } from 'react-router-dom';
-import reducers from 'modules/reducers';
-import Routes from 'routes/Routes.jsx';
+import { ConnectedRouter } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import { render } from 'react-dom';
-import thunk from 'redux-thunk'
+import Bluebird from 'bluebird';
 import React from 'react';
 
-const preloadedState = window.__PRELOADED_STATE__;
+import { store, history } from './store';
+import App from './routes/App.jsx';
 
-delete window.__PRELOADED_STATE__;
 
-const history = createHistory();
-const historyMiddleware = routerMiddleware(history);
+Bluebird.config({ cancellation: true });
 
-const store = createStore(
-	combineReducers({
-		...reducers,
-		router: routerReducer,
-	}),
-	preloadedState,
-	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),	
-	applyMiddleware(thunk, historyMiddleware)
+const target = document.querySelector('#root');
+const html = (
+    <Provider store={store}>
+        <ConnectedRouter history={history}>
+            <App />
+        </ConnectedRouter>
+    </Provider>
 );
 
-render(
-	<Provider store={store}>
-		<ConnectedRouter history={history}>
-			<Routes />
-		</ConnectedRouter>
-	</Provider>,
-	document.getElementById('root')
-);
+render(html, target);

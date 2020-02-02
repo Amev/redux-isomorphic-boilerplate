@@ -35,10 +35,18 @@ module.exports = () => {
 						{
 							loader: 'babel-loader',
 							options: {
-								presets: ['react'],
+								presets: ['@babel/preset-react'],
 								plugins: [
-									'transform-object-rest-spread',
-									'transform-class-properties',
+                                    '@babel/plugin-proposal-object-rest-spread',
+                                    '@babel/plugin-proposal-class-properties',
+                                    '@babel/plugin-syntax-dynamic-import',
+                                    [
+                                        'import',
+                                        {
+                                            libraryName: 'antd',
+                                            style: 'true',
+                                        },
+                                    ],
 								],
 								babelrc: false,
 							},

@@ -1,17 +1,16 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
-import reducers from './modules/reducers';
+import reducers from './modules/rootReducer';
 import { Provider } from 'react-redux';
 import compression from 'compression';
 import bodyParser from 'body-parser';
-import Routes from 'routes/Routes';
 import useragent from 'useragent';
 import thunk from 'redux-thunk';
 import Express from 'express';
 import Config from './config';
+import App from 'routes/App';
 import React from 'react';
-import path from 'path';
 import fs from 'fs';
 
 const app = Express();
@@ -29,19 +28,19 @@ const template = fs.readFileSync('dist/public/template.html', 'utf-8');
 function handleRender(req, res) {
 	const store = createStore(combineReducers({ ...reducers }), applyMiddleware(thunk));
 	const context = {};
-	
+
 	const html = renderToString(
 		<Provider store={store}>
 			<StaticRouter
 				location={req.url}
 				context={context}
 			>
-				<Routes />
+				<App />
 			</StaticRouter>
 		</Provider>
 	);
 
-	const agent = useragent.parse(req.headers['user-agent']);	
+	const agent = useragent.parse(req.headers['user-agent']);
 	const preloadedState = store.getState();
 
 	res.send(renderFullPage(html, preloadedState, agent));
