@@ -1,12 +1,11 @@
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const MinifyPlugin = require('babel-minify-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MinifyPlugin = require('babel-minify-webpack-plugin');
 const htmlWebPackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 
 const baseConfig = require('./webpack.base.config')();
-const modernConfig = require('./webpack.base.config')();
 
 
 const extractLess = new ExtractTextPlugin({
@@ -14,7 +13,9 @@ const extractLess = new ExtractTextPlugin({
 	disable: false
 });
 
+baseConfig.mode = 'production';
 baseConfig.output.publicPath = '/public/';
+baseConfig.output.filename = 'bundle_es6-[chunkhash].js';
 baseConfig.plugins.unshift(new CleanWebpackPlugin());
 baseConfig.plugins.push(extractLess);
 baseConfig.plugins.push(new MinifyPlugin());
@@ -28,18 +29,7 @@ baseConfig.plugins.push(new htmlWebPackPlugin({
 	filename: 'template.html',
     publicPath: '/public/',
 }));
-baseConfig.module.rules[1].use[0].options.presets.push([
-	'@babel/preset-env', {
-		targets: {
-			browsers: [
-				'Chrome >= 60',
-				'Safari >= 10',
-				'Firefox >= 54',
-				'Edge >= 15',
-			],
-		},
-	},
-]);
+baseConfig.module.rules[1].use[0].options.presets.push(['modern-browsers']);
 baseConfig.module.rules.shift();
 baseConfig.module.rules.unshift({
 	test: /\.less$/,
@@ -58,17 +48,6 @@ baseConfig.module.rules.unshift({
 	}),
 });
 
-modernConfig.output.filename = 'bundle_es6-[chunkhash].js';
-modernConfig.output.publicPath = '/public/';
-modernConfig.plugins.push(new MinifyPlugin());
-modernConfig.plugins.push(new webpack.DefinePlugin({
-	'process_env': {
-		'NODE_ENV': JSON.stringify('production'),
-	},
-}))
-modernConfig.module.rules[1].use[0].options.presets.push(['modern-browsers']);
-
 module.exports = [
 	baseConfig,
-	modernConfig,
 ];
